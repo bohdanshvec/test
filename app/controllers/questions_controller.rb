@@ -3,10 +3,13 @@ class QuestionsController < ApplicationController
   # before_action :set_question!, only: %i[show destroy edit update]
 
   def show
-    @question = Question.find params[:id]
+    @question = Question.find(params[:id]).decorate
+    # @question = @question.decorate
     @answer = @question.answers.build
-    @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5)
+    @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5).decorate
     # @answers = Answer.where(question: @question).limit(2).order(created_at: :desc)
+    # @answers = @answers.decorate
+
   end
 
   def destroy
@@ -31,9 +34,10 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.order(created_at: :desc).page params[:page]
+    @questions = Question.order(created_at: :desc).page(params[:page]).decorate
+    # @questions = @questions.decorate
   end
-
+  
   def new
     @question = Question.new
   end

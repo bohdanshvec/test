@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+
   def nav_tab(title, url, options = {})
     current_page = options.delete :current_page
     css_class = current_page == title ? 'text-secondary' : 'text-white'

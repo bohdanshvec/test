@@ -1,0 +1,15 @@
+<% provide :page_title, 'Edit profile' %>
+
+<% currently_at 'Edit profile' %>
+
+<h1 class="mb-4">Edit profile</h1>
+
+
+
+<%= turbo_frame_tag "user" do %>
+
+  <%= render 'form' %>
+
+<% end %>
+
+
