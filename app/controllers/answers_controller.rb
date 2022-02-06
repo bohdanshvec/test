@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
 
+  include QuestionsAnswers
+
   before_action :set_question!
   # before_action :set_answer!, except: :create
 
@@ -9,7 +11,7 @@ class AnswersController < ApplicationController
 
   def update
     @answer = @question.answers.find params[:id]
-    if @answer.update answer_params
+    if @answer.update update_answer_params
       flash[:success] = "Answer updated!"
       redirect_to question_path(@question, anchor: "answer-#{@answer.id}")
     else
@@ -18,16 +20,13 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build answer_params
+    @answer = @question.answers.build create_answer_params
 
     if @answer.save
       flash[:success] = "Answer create!"
       redirect_to question_path(@question, anchor: "answer-#{@answer.id}")
     else
-      @question = @question.decorate
-      @answers = @question.answers.order created_at: :desc
-      @answers = @answers.decorate
-      render 'questions/show'
+      load_question_answers(do_render: true)
     end
   end
 
@@ -40,7 +39,11 @@ class AnswersController < ApplicationController
 
   private
 
-  def answer_params
+  def create_answer_params
+    params.require(:answer).permit(:body).merge(user_id: current_user.id)
+  end
+
+  def update_answer_params
     params.require(:answer).permit(:body)
   end
 

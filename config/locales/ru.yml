@@ -1,0 +1,83 @@
+ru:
+
+  en: Английский
+  ru: Русский
+
+  activerecord:
+    models:
+      question: "Вопрос"
+    attributes:
+      comment:
+        body: Текст
+      question:
+        title: "Заголовок"
+        body: "Текст"
+
+  global:
+    user:
+      roles:
+        basic: Базовый
+        moderator: Модератор
+        admin: Админ
+    dialog:
+      you_sure: Вы уверены?
+
+  pages:
+    index:
+      title: "Привет, добро пожаловать в Blog."
+
+  menu:
+    home: "Главная"
+    questions: "Вопросы"
+    new_question: "Новый вопрос"
+    users: "Пользлватели"
+    edit_profile: "Обновить профиль"
+
+  admin:
+    edit:
+      title: Редактирование пользователя
+    users:
+      update:
+        success: Пользователь обновлён!
+      destroy:
+        success: Пользователь удалён!
+
+
+  questions:
+    index:
+      search_by_tags: Поиск по тегам
+      submit: "Создать запрос по Тегам"
+    show:
+      comments: Коментарии
+    update:
+      success: "Вопрос обновлён!"
+    destroy:
+      success: "Вопрос удалён!"
+    form:
+      submit: "Создать вопрос"
+      title: "Заголовок"
+
+  comments:
+    create:
+      success: "Коментарий создан!"
+    destroy:
+      success: "Коментарий удалён!"
+
+
+
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Предидущая"
+      next: "Следующая &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"

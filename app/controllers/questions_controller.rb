@@ -1,12 +1,14 @@
 class QuestionsController < ApplicationController
 
+  include QuestionsAnswers
+
   # before_action :set_question!, only: %i[show destroy edit update]
 
+  before_action :fetch_tags, only: %i[new edit]
+
   def show
-    @question = Question.find(params[:id]).decorate
-    # @question = @question.decorate
-    @answer = @question.answers.build
-    @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5).decorate
+    load_question_answers
+
     # @answers = Answer.where(question: @question).limit(2).order(created_at: :desc)
     # @answers = @answers.decorate
 
@@ -15,7 +17,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question = Question.find params[:id]
     @question.destroy
-    flash[:success] = "Question deleted!"
+    flash[:success] = t('.success')
     redirect_to questions_path
   end
 
@@ -26,7 +28,7 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find params[:id]
      if @question.update question_params
-      flash[:success] = "Question updated!"
+      flash[:success] = t('.success')
       redirect_to question_path(@question)
     else
       render :edit
@@ -34,8 +36,10 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    @questions = Question.order(created_at: :desc).page(params[:page]).decorate
-    # @questions = @questions.decorate
+    @questions = Question.all_by_tags(params[:tag_ids])#.includes(:user, :question_tags, :tags).order(created_at: :desc).page(params[:page]).decorate
+
+    @questions = @questions.page(params[:page]).decorate
+    @tags = Tag.all
   end
   
   def new
@@ -43,7 +47,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new question_params
+    @question = current_user.questions.build question_params
     if @question.save
       flash[:success] = "Question created!"
       redirect_to questions_path
@@ -55,7 +59,11 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, tag_ids: [])
+  end
+
+  def fetch_tags
+    @tags = Tag.all
   end
 
   # def set_question!
