@@ -1,8 +1,9 @@
 <% provide :page_title, 'New question' %>
 
-<% currently_at t('menu.new_question') %>
+<% currently_at 'New question' %>
 
-<h1 class="mb-4"><%= t('menu.new_question') %></h1>
+<h1 class="mb-4">New question</h1>
 
-  <%= render 'form', tags: @tags %>
+
+  <%= render 'form' %>
 
